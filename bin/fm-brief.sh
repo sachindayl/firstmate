@@ -689,6 +689,22 @@ IFS= read -r -d '' SHARED_NO_CD_RULE <<'EOF' || true
 EOF
 SHARED_NO_CD_RULE=${SHARED_NO_CD_RULE%$'\n'}
 
+# One shared string keeps the ship and scout review-loop rule identical.
+# The contract itself lives in .agents/skills/review-loop; this is the pointer a
+# worker needs at the moment it hits a review gate.
+IFS= read -r -d '' SHARED_REVIEW_RULE <<'EOF' || true
+9. Review rounds follow the `review-loop` contract. Label every finding BLOCKER, SHOULD-FIX, or NIT;
+   only a BLOCKER opens a fix round, and a BLOCKER must carry a failing test or an exact
+   reproduction. SHOULD-FIX and NIT are recorded, not fixed here. Scope freezes after the first
+   review: a re-review checks only the listed blockers and any regression the fixes introduced.
+   Keep the per-task ledger at `data/<task-id>/review-ledger.md` - every finding, its label, and the
+   decision (fixed / won't fix + reason / deferred), plus one line per round as
+   `round N: reason = new finding | incomplete fix | regression | unclear spec`. Read it before
+   answering a gate and never reopen what it records as decided. Two fix rounds is the ceiling: at
+   the second, stop and report what is open, why, and your recommendation instead of opening a third.
+EOF
+SHARED_REVIEW_RULE=${SHARED_REVIEW_RULE%$'\n'}
+
 if [ -n "$BASE_BRANCH" ]; then
   SETUP_BASE="You are in a disposable git worktree of $REPO, at a detached HEAD on a clean copy of its base branch.
 Base branch: $BASE_BRANCH"
@@ -737,6 +753,7 @@ $CREWMATE_PAUSE_INSTRUCTIONS
    Firstmate's reply normally writes that closing line at answer time; when a blocker or wait clears WITHOUT a firstmate reply, append \`resolved [at=<epoch>]: {how it cleared}\` yourself (same \`[key=<slug>]\` if you opened it with one) as you resume.
 $SHARED_INFRA_RULE
 $SHARED_NO_CD_RULE
+$SHARED_REVIEW_RULE
 
 $WAIT_BLOCK$INBOX_SECTION
 
@@ -822,6 +839,7 @@ $ASK_USER_BLOCK
    Firstmate's reply normally writes that closing line at answer time; when a blocker or wait clears WITHOUT a firstmate reply, append \`resolved [at=<epoch>]: {how it cleared}\` yourself (same \`[key=<slug>]\` if you opened it with one) as you resume.
 $SHARED_INFRA_RULE
 $SHARED_NO_CD_RULE
+$SHARED_REVIEW_RULE
 
 $WAIT_BLOCK$INBOX_SECTION
 

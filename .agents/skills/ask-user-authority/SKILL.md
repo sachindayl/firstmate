@@ -12,6 +12,7 @@ metadata:
 
 This skill is the single owner of the decision policy for no-mistakes ask-user findings.
 `AGENTS.md` section 7 points here and does not restate this procedure.
+`review-loop` owns the shape of the round itself: severity labels, what evidence makes a finding a blocker, the ledger, the scope freeze, and the two-round budget. Apply both together.
 Finding authority is determined by the criteria below, not by `yolo`.
 Firstmate always applies this judgment, decides any finding that is unambiguous toward the accepted design, and escalates only genuinely ambiguous, expanding, or destructive findings.
 
