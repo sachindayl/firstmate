@@ -705,6 +705,22 @@ IFS= read -r -d '' SHARED_REVIEW_RULE <<'EOF' || true
 EOF
 SHARED_REVIEW_RULE=${SHARED_REVIEW_RULE%$'\n'}
 
+# One shared string keeps the three round-discipline rules identical in ship and scout briefs.
+IFS= read -r -d '' SHARED_DISCIPLINE_RULE <<'EOF' || true
+10. Enumerate the set before changing a member of it. Before changing how one member of a set
+    behaves, enumerate every member and change all of them, or say in the PR which are deliberately
+    excluded and why - a sheet dismissed five ways, a package installed under three names, a claim
+    made for every environment. A finding of the form "this happens elsewhere too" means the change
+    is incomplete, not that a follow-up exists.
+11. Prose never rides along with behaviour. Correcting a sentence your change made false belongs in
+    that change; new explanatory prose is a design statement and goes in its own change, not as a
+    paragraph of new documentation next to a behaviour change.
+12. A build lane never touches a device: no connected instrumentation, no simulator test runs, no
+    emulator boot. Prove what compiles and what unit tests assert, record the device gate as
+    approved-with-reason, and leave device proof to the lane that owns the device.
+EOF
+SHARED_DISCIPLINE_RULE=${SHARED_DISCIPLINE_RULE%$'\n'}
+
 if [ -n "$BASE_BRANCH" ]; then
   SETUP_BASE="You are in a disposable git worktree of $REPO, at a detached HEAD on a clean copy of its base branch.
 Base branch: $BASE_BRANCH"
@@ -754,6 +770,7 @@ $CREWMATE_PAUSE_INSTRUCTIONS
 $SHARED_INFRA_RULE
 $SHARED_NO_CD_RULE
 $SHARED_REVIEW_RULE
+$SHARED_DISCIPLINE_RULE
 
 $WAIT_BLOCK$INBOX_SECTION
 
@@ -840,6 +857,7 @@ $ASK_USER_BLOCK
 $SHARED_INFRA_RULE
 $SHARED_NO_CD_RULE
 $SHARED_REVIEW_RULE
+$SHARED_DISCIPLINE_RULE
 
 $WAIT_BLOCK$INBOX_SECTION
 

@@ -62,6 +62,10 @@ Two fix rounds is the hard ceiling.
 At the second, stop: report what is open, why it is stuck, and a recommendation, and wait for the
 captain's go-ahead before any further round.
 
+Round discipline that keeps rounds few - enumerate the whole set before changing one member, keep new
+prose out of behaviour changes, no device use from a build lane - is carried as rules 10-12 of every
+generated brief (`bin/fm-brief.sh`); a finding that one of them was skipped is an `incomplete fix`.
+
 ## What the reason line is for
 
 `new finding` means the round found something not previously recorded.
